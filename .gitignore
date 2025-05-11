@@ -1,0 +1,97 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+db.sqlite3
+local_settings.py
+.env
+.env.*
+.envrc
+*.env
+*.secret
+secrets.json
+
+# If you use Django's collectstatic
+/staticfiles/
+/static/
+/media/
+
+# Redis (if you ever dump to disk)
+dump.rdb
+*.rdb
+*.aof
+
+# PostgreSQL (ignore local database dumps and backups)
+*.pgsql
+*.psql
+*.sql
+
+# Daphne/Channels (no special files, but ignore runtime artifacts)
+*.pid
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Test output
+test-results/
+junit-*.xml
+
+# Pipenv
+Pipfile.lock
+
+# Virtualenv
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Migrations (optional: keep if you want to version control them)
+# Uncomment the next two lines if you want to ignore all migration files except __init__.py
+**/migrations/*.py
+# !**/migrations/__init__.py
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+
+# Editor/IDE
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# System
+*.swp
+*.swo
