@@ -23,6 +23,7 @@ pip install -r requirements.txt
 
 **4. Set Up Environment Variables**
 
+This project uses `django-environ` to manage env settings. You will need to create an environment file in the root of the project.
 You can copy the template below into a new file named .env (or .env.dev, .env.prod etc.).
 ```
 DEBUG=True
