@@ -226,7 +226,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [('127.0.0.1', 6379)],  # Make sure Redis is running
+            "hosts": [(env('REDIS_HOST'), env.int('REDIS_PORT'))],  # Make sure Redis is running
         },
         # For production, use channels_redis:
         # "BACKEND": "channels_redis.core.RedisChannelLayer",
