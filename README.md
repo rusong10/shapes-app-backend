@@ -4,77 +4,107 @@ Follow these steps to get your development environment set up:
 
 **1. Clone the Repository**
 
-```
-git clone <https://github.com/rusong10/shapes-app-backend.git>
-cd shapes-app-backend
-```
+  ```
+  git clone <https://github.com/rusong10/shapes-app-backend.git>
+  cd shapes-app-backend
+  ```
 
 **2. Create and Activate a Virtual Environment**
 - Windows (Command Prompt):
-```
-python -m venv .venv
-.\venv\Scripts\activate
-```
+  
+  ```
+  python -m venv .venv
+  .\venv\Scripts\activate
+  ```
 
 **3. Install Dependencies**
-```
-pip install -r requirements.txt
-```
+
+  ```
+  pip install -r requirements.txt
+  ```
 
 **4. Set Up Environment Variables**
 
-This project uses `django-environ` to manage env settings. You will need to create an environment file in the root of the project.
-You can copy the template below into a new file named .env (or .env.dev, .env.prod etc.).
-```
-DEBUG=True
-ENV=your_dev_environment
-SECRET_KEY=your_secret_key
+This project uses `django-environ` to manage env settings. You will need to create an environment file (e.g., `.env` or `.env.dev`) in the root of the project.
+- Create your environment files:
+  
+  ```
+  DEBUG=True
+  ENV=development # Or 'production', 'staging', etc.
+  SECRET_KEY=your_secret_key
+  
+  # Database
+  DB_NAME=shapes_dev_db
+  DB_USER=your_user
+  DB_PASSWORD=your_password
+  DB_HOST=localhost
+  DB_PORT=5432
+  
+  # Allowed Hosts
+  ALLOWED_HOSTS=localhost,127.0.0.1
+  
+  # CORS
+  CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+  
+  # CSRF
+  CSRF_TRUSTED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+  
+  # SimpleJWT
+  ACCESS_TOKEN_LIFETIME_MINUTES=15
+  REFRESH_TOKEN_LIFETIME_DAYS=1
 
-# Database
-DB_NAME=your_db
-DB_USER=your_user
-DB_PASSWORD=your_password
-DB_HOST=localhost
-DB_PORT=5432
-
-# Allowed Hosts
-ALLOWED_HOSTS=localhost,127.0.0.1
-
-# CORS
-CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-
-# CSRF
-CSRF_TRUSTED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-
-# SimpleJWT
-ACCESS_TOKEN_LIFETIME_MINUTES=15
-REFRESH_TOKEN_LIFETIME_DAYS=1
-```
-- The `settings.py` file is configured to load environment variables from `.env.dev`, you may change to your env file accordingly. (line 24)
+  # Redis
+  REDIS_HOST=127.0.0.1
+  REDIS_PORT=6379
+  ```
+- The `shapes_app_backend/settings.py` file is configured to load environment variables from `.env.dev`, you may change to your env file accordingly. (line 24)
 
 **5. Set Up PostgreSQL Database**
+
 - Ensure your PostgreSQL server is running.
-- Create the database specified in your .env file (e.g., shapes_dev_db) with the specified user and password having ownership or appropriate permissions via `pgAdmin 4` or `psql`.
+- Create the database specified in your .env file (e.g., shapes_dev_db)
+- Ensure the specified user `(POSTGRES_USER)` has the necessary permissions for this database. Use tools like `pgAdmin 4` or `psql`.
+
+**6. Set up Redis (requried for WebScoket communication)**
+
+- For Windows, use WSL to install a Linux distribution like Ubuntu, then run the following command
+  
+  ```
+  sudo apt update && sudo apt upgrade
+  sudo apt install redis
+  sudo service redis-server start
+  ```
+- Verify if Redis is Running by using the Redis CLI:
+  
+  ```
+  redis-cli ping
+  ```
+  It should respond with `PONG`.
 
 **6. Apply Database Migrations**
 
-This will create the necessary tables in your database based on the Django models.
-```
-python manage.py makemigrations accounts
-python manage.py makemigrations shapes_app
-python manage.py migrate
-```
+  This will create the necessary tables in your database based on the Django models.
+  
+  ```
+  python manage.py makemigrations accounts
+  python manage.py makemigrations shapes_app
+  python manage.py migrate
+  ```
 
 **7. Create a Superuser (Admin Account)**
-- This account will have full permissions to manage shapes via the API. Follow the prompts to set a username, email (optional), and password.
-```
-python manage.py createsuperuser
-```
+  - This account will have full permissions to manage shapes via the API. Follow the prompts to set a username, email (optional), and password.
+    
+    ```
+    python manage.py createsuperuser
+    ```
 
 **8. Run the server**
-```
-python manage.py runserver localhost:8000
-```
+  - Ensure Redis is running (if configured in `shapes_app_backend/settings.py` under `CHANNEL_LAYERS`)
+  - Run the Django ASGI server:
+      
+    ```
+    python manage.py runserver localhost:8000
+    ```
 
 ## API Endpoints Overview
 
