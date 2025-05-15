@@ -3,19 +3,19 @@ from django.dispatch import receiver
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
-from .models import UserShape
-from .serializers import UserShapeSerializer
+from .models import Shape
+from .serializers import ShapeSerializer
 from .consumers import SHAPES_GROUP_NAME
 
-@receiver(post_save, sender=UserShape)
+@receiver(post_save, sender=Shape)
 def announce_shape_change(sender, instance, created, **kwargs):
     """
-    Signal handler for when a UserShape is saved (created or updated).
+    Signal handler for when a Shape is saved (created or updated).
     """
 
     channel_layer = get_channel_layer()
     action = "created" if created else "updated"
-    shape_data = UserShapeSerializer(instance).data 
+    shape_data = ShapeSerializer(instance).data 
 
     message_data = {
         'action': action,
@@ -32,10 +32,10 @@ def announce_shape_change(sender, instance, created, **kwargs):
         }
     )
 
-@receiver(post_delete, sender=UserShape)
+@receiver(post_delete, sender=Shape)
 def announce_shape_delete(sender, instance, **kwargs):
     """
-    Signal handler for when a UserShape is deleted.
+    Signal handler for when a Shape is deleted.
     """
     channel_layer = get_channel_layer()
 

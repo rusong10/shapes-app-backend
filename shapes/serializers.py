@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import UserShape
+from .models import Shape
 
-class UserShapeSerializer(serializers.ModelSerializer):
+class ShapeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserShape
+        model = Shape
         fields = '__all__'
         read_only_fields = ['id', 'created_at', 'updated_at']

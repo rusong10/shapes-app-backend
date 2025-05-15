@@ -1,8 +1,8 @@
 from django.apps import AppConfig
 
-class ShapesAppConfig(AppConfig):
+class ShapesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'shapes_app'
+    name = 'shapes'
 
     def ready(self):
-        import shapes_app.signals
+        import shapes.signals
