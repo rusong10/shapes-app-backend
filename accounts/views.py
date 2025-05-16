@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.views import ( TokenRefreshView, TokenVerifyView )
 from .serializers import UserSerializer
 
 def set_refresh_cookies(response, refresh_token):
@@ -47,7 +47,7 @@ class LoginView(APIView):
 
             set_refresh_cookies(response, refresh)
             return response
-        
+
         return Response(
             {'detail': 'Invalid credentials.'}, 
             status=status.HTTP_401_UNAUTHORIZED
@@ -57,7 +57,7 @@ class LogoutView(APIView):
     """
     Logout view. Blacklists refresh token and deletes the refresh token cookie.
     """
-    
+
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
@@ -81,7 +81,7 @@ class LogoutView(APIView):
                 {'detail': 'Invalid or already blacklisted token.'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
-            
+
         response.delete_cookie('refresh_token', '/api/accounts/')
         return response
 
@@ -90,7 +90,7 @@ class CustomTokenRefreshView(TokenRefreshView):
     Refreshes access token using HttpOnly refresh token cookie. 
     A new refresh token replaces the old cookie.
     """
-     
+
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
 
@@ -134,3 +134,6 @@ class MeView(APIView):
 
     def get(self, request):
         return Response(UserSerializer(request.user).data)
+
+class CustomTokenVerifyView(TokenVerifyView):
+    permission_classes = [permissions.AllowAny]
