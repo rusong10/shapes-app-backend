@@ -15,7 +15,7 @@ def set_refresh_cookies(response, refresh_token):
         httponly=True,
         secure=getattr(settings, 'SIMPLE_JWT', {}).get('AUTH_COOKIE_SECURE'),
         samesite='Lax',
-        path='/api/accounts/',
+        path='/',
         max_age=getattr(settings, 'SIMPLE_JWT', {}).get('REFRESH_TOKEN_LIFETIME').total_seconds()
     )
     return response
@@ -82,7 +82,7 @@ class LogoutView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
-        response.delete_cookie('refresh_token', '/api/accounts/')
+        response.delete_cookie('refresh_token', '/')
         return response
 
 class CustomTokenRefreshView(TokenRefreshView):
